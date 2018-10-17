@@ -1,4 +1,4 @@
-package config
+package conf
 
 type Connections struct {
 	DATABASE_IP       string

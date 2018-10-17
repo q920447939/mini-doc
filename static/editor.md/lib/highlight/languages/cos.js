@@ -85,7 +85,7 @@ function cos (hljs) {
         begin: /;/, end: "$",
         relevance: 0
       },
-      { // Functions and user-defined functions: write $ztime(60*60*3), $$myFunc(10), $$^Val(1)
+      { // Functions and rbac-defined functions: write $ztime(60*60*3), $$myFunc(10), $$^Val(1)
         className: "built_in",
         begin: /(?:\$\$?|\.\.)\^?[a-zA-Z]+/
       },

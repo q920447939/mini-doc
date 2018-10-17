@@ -18,7 +18,7 @@ $(function () {
                     style="\
                         z-index:301;\
                         position: absolute;\
-                        user-select: none;\
+                        rbac-select: none;\
                         cursor: col-resize;\
                         left: 275px;\
                         height: 100%;\

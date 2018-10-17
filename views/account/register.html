@@ -33,7 +33,7 @@
 <div class="container manual-body">
     <div class="row login">
         <div class="login-body">
-            <form role="form" method="post" id="registerForm">
+            <form >
                 <h3 class="text-center">{{.registeredHTMLTitle}}</h3>
                 <div class="form-group">
                     <div class="input-group">
@@ -84,11 +84,11 @@
                     <div class="clearfix"></div>
                 </div>
 
-                <div class="form-group">
-                    <button type="submit" id="btnRegister" class="btn btn-success" style="width: 100%"
-                            data-loading-text="正在注册..." autocomplete="off">立即注册
+               {{/* <div class="form-group">
+                    <button  id="btnRegister" class="btn btn-success" style="width: 100%"
+                             >立即注册
                     </button>
-                </div>
+                </div>*/}}
             {{/*  {{if true}}
                 <div class="form-group">
                     已有账号？<a href="{{urlfor "AccountController.Login" }}" title="立即登录">立即登录</a>
@@ -98,6 +98,9 @@
         </div>
     </div>
     <div class="clearfix"></div>
+    <button  id="btnRegister" class="btn btn-success" style="width: 100%"
+    >立即注册
+    </button>
 </div>
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -116,69 +119,27 @@
                 $("#btnRegister").trigger("click");
             }
         });*/
-        /*
-                $("#registerForm").ajaxForm({
-                    beforeSubmit : function () {
-                        var account = $.trim($("#account").val());
-                        var password = $.trim($("#password1").val());
-                        var confirmPassword = $.trim($("#password2").val());
-                        var code = $.trim($("#code").val());
-                        var email = $.trim($("#email").val());
 
-                        if(account === ""){
-                            $("#account").focus().tooltip({placement:"auto",title : "账号不能为空",trigger : 'manual'})
-                                .tooltip('show')
-                                .parents('.form-group').addClass('has-error');
-                            return false;
 
-                        }else if(password === ""){
-                            $("#password").focus().tooltip({title : '密码不能为空',trigger : 'manual'})
-                                .tooltip('show')
-                                .parents('.form-group').addClass('has-error');
-                            return false;
-                        }else if(confirmPassword !== password){
-                            $("#confirm_password").focus().tooltip({title : '确认密码不正确',trigger : 'manual'})
-                                .tooltip('show')
-                                .parents('.form-group').addClass('has-error');
-                            return false;
-                        }else if(email === ""){
-                            $("#email").focus().tooltip({title : '邮箱不能为空',trigger : 'manual'})
-                                .tooltip('show')
-                                .parents('.form-group').addClass('has-error');
-                            return false;
-                        }else if(code !== undefined && code === ""){
-                            $("#code").focus().tooltip({title : '验证码不能为空',trigger : 'manual'})
-                                .tooltip('show')
-                                .parents('.form-group').addClass('has-error');
-                            return false;
-                        }else {
-
-                            $("button[type='submit']").button('loading');
-                        }
-                    },
-                    success : function (res) {
-                        $("button[type='submit']").button('reset');
-                        if(res.errcode === 0){
-                            window.location = '\{\{urlfor "\AccountController.Login\"\}\}'
-                        }else{
-                            $("#captcha-img").click();
-                            $("#code").val('');
-                            layer.msg(res.message);
-                        }
-                    }
-                });
-        */
-        $("#registerForm").click(
-                $.ajax({
-                    type: 'post',
-                    url: '/user/add',
-                    data: $("#registerForm").serialize(),
-                    success: function (data) {
-                        // your code
-                    }
-                })
-        )
+        $("#btnRegister").click(function () {
+            var account = $.trim($("#account").val());
+            var password = $.trim($("#password1").val());
+            var confirmPassword = $.trim($("#password2").val());
+            var code = $.trim($("#code").val());
+            var email = $.trim($("#email").val());
+            $.post("/user/add",{
+                account:account,
+                password:password,
+                confirmPassword:confirmPassword,
+                code:code,
+                email:email
+            },function(result){
+                $("span").html(result);
+            });
+        })
     });
+
+
 </script>
 </body>
 </html>

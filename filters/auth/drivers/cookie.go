@@ -38,7 +38,7 @@ func (cookie *cookieAuthManager) Check(c *gin.Context) bool {
 }
 
 func (cookie *cookieAuthManager) User(c *gin.Context) interface{} {
-	// get model user
+	// get model rbac
 	session, err := store.Get(c.Request, cookie.name)
 	if err != nil {
 		return session.Values

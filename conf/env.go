@@ -1,4 +1,4 @@
-package config
+package conf
 
 // 环境配置文件
 // 可配置多个环境配置，进行切换
@@ -40,7 +40,7 @@ var env = Env{
 	DATABASE_IP:       "127.0.0.1",
 	DATABASE_PORT:     "3306",
 	DATABASE_USERNAME: "root",
-	DATABASE_PASSWORD: "root",
+	DATABASE_PASSWORD: "123456",
 	DATABASE_NAME:     "gin-template",
 
 	REDIS_IP:       "127.0.0.1",

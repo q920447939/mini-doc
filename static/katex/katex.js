@@ -1127,7 +1127,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * This is the ParseError class, which is the main error thrown by KaTeX
  * functions when something has gone wrong. This is used to distinguish internal
- * errors from errors in the expression that the user provided.
+ * errors from errors in the expression that the rbac provided.
  *
  * If possible, a caller should provide a Token or ParseNode with information
  * about where in the source string the problem occurred.
@@ -3447,7 +3447,7 @@ groupTypes.array = function (group, options) {
     // TODO(edemaine): allow overriding \jot via \setlength (#687)
     var jot = 3 * pt;
     // Default \arraystretch from lttab.dtx
-    // TODO(gagern): may get redefined once we have user-defined macros
+    // TODO(gagern): may get redefined once we have rbac-defined macros
     var arraystretch = _utils2.default.deflt(group.value.arraystretch, 1);
     var arrayskip = arraystretch * baselineskip;
     var arstrutHeight = 0.7 * arrayskip; // \strutbox in ltfsstrc.dtx and

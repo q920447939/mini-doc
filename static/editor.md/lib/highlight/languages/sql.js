@@ -124,7 +124,7 @@ function(hljs) {
             'try_cast try_convert try_parse type ub1 ub2 ub4 ucase unarchived unbounded uncompress ' +
             'under undo unhex unicode uniform uninstall union unique unix_timestamp unknown unlimited unlock unpivot ' +
             'unrecoverable unsafe unsigned until untrusted unusable unused update updated upgrade upped upper upsert ' +
-            'url urowid usable usage use use_stored_outlines user user_data user_resources users using utc_date ' +
+            'url urowid usable usage use use_stored_outlines rbac user_data user_resources users using utc_date ' +
             'utc_timestamp uuid uuid_short validate validate_password_strength validation valist value values var ' +
             'var_samp varcharc vari varia variab variabl variable variables variance varp varraw varrawc varray ' +
             'verify version versions view virtual visible void wait wallet warning warnings week weekday weekofyear ' +

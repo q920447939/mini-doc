@@ -10,7 +10,7 @@ function(hljs) {
   var RESOURCES = 'primitive rsc_template';
 
   var COMMANDS = 'group clone ms master location colocation order fencing_topology ' +
-      'rsc_ticket acl_target acl_group user role ' +
+      'rsc_ticket acl_target acl_group rbac role ' +
       'tag xml';
 
   var PROPERTY_SETS = 'property rsc_defaults op_defaults';

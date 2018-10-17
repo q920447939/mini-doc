@@ -2,7 +2,7 @@ package redis
 
 import (
 	"github.com/go-redis/redis"
-	"wahaha/conf"
+	config "wahaha/conf"
 	"time"
 )
 

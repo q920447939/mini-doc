@@ -2,7 +2,7 @@ package gin
 
 import (
 	"github.com/gin-gonic/gin"
-	"wahaha/conf"
+	config "wahaha/conf"
 	"runtime"
 	"github.com/gin-contrib/pprof"
 	"morningo/filters"
@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"morningo/module/logger"
 	"github.com/go-sql-driver/mysql"
-	ig "wahaha/models/gin"
+	ig "wahaha/module/gin"
 )
 
 func InitGin(r *gin.Engine) {

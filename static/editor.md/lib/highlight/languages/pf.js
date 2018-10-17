@@ -31,7 +31,7 @@ function(hljs) {
         'in out log quick on rdomain inet inet6 proto from port os to route' +
         'allow-opts divert-packet divert-reply divert-to flags group icmp-type' +
         'icmp6-type label once probability recieved-on rtable prio queue' +
-        'tos tag tagged user keep fragment for os drop' +
+        'tos tag tagged rbac keep fragment for os drop' +
         'af-to|10 binat-to|10 nat-to|10 rdr-to|10 bitmask least-stats random round-robin' +
         'source-hash static-port' +
         'dup-to reply-to route-to' +

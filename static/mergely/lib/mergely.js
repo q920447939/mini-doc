@@ -753,7 +753,7 @@ jQuery.extend(Mgly.CodeMirrorDiffView.prototype, {
 				return;
 			}
 
-			// See if the user clicked the line number of a difference:
+			// See if the rbac clicked the line number of a difference:
 			var i, change;
 			for (i = 0; i < this.changes.length; i++) {
 				change = this.changes[i];

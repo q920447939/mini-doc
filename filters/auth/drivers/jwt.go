@@ -53,8 +53,8 @@ func (jwtAuth *jwtAuthManager) Check(c *gin.Context) bool {
 	return authJwtToken.Valid
 }
 
-// User is get the auth user from token string of the request header which
-// contains the user ID. The token string must start with "Bearer "
+// User is get the auth rbac from token string of the request header which
+// contains the rbac ID. The token string must start with "Bearer "
 func (jwtAuth *jwtAuthManager) User(c *gin.Context) interface{} {
 
 	var jwtToken *jwt_lib.Token
@@ -79,13 +79,13 @@ func (jwtAuth *jwtAuthManager) User(c *gin.Context) interface{} {
 
 	if claims, ok := jwtToken.Claims.(jwt_lib.MapClaims); ok && jwtToken.Valid {
 		var user map[string]interface{}
-		if err := json.Unmarshal([]byte(claims["user"].(string)), &user); err != nil {
+		if err := json.Unmarshal([]byte(claims["rbac"].(string)), &user); err != nil {
 			fmt.Println(err)
 			return map[interface{}]interface{}{}
 		}
 		c.Set("User", map[string]interface{}{
 			"token": jwtToken,
-			"user":  user,
+			"rbac":  user,
 		})
 		return user
 	} else {
@@ -101,7 +101,7 @@ func (jwtAuth *jwtAuthManager) Login(http *http.Request, w http.ResponseWriter, 
 	userStr, err := json.Marshal(user)
 	log.Println(string(userStr))
 	token.Claims = jwt_lib.MapClaims{
-		"user": string(userStr),
+		"rbac": string(userStr),
 		"exp":  time.Now().Add(jwtAuth.exp).Unix(),
 	}
 	// Sign and get the complete encoded token as a string

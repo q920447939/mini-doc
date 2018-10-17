@@ -5,7 +5,7 @@ import (
 	"errors"
 	"strconv"
 	"strings"
-	"wahaha/conf"
+	config "wahaha/conf"
 	"wahaha/module/logger"
 	"sync"
 )

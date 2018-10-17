@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
-	"wahaha/conf"
+	config "wahaha/conf"
 	"errors"
 	"strconv"
 )

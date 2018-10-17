@@ -10,7 +10,7 @@ Description: Ada is a general-purpose programming language that has great suppor
 // We try to support full Ada2012
 //
 // We highlight all appearances of types, keywords, literals (string, char, number, bool)
-// and titles (user defined function/procedure/package)
+// and titles (rbac defined function/procedure/package)
 // CSS classes are set accordingly
 //
 // Languages causing problems for language detection:

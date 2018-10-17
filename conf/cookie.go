@@ -1,4 +1,4 @@
-package config
+package conf
 
 type CookieConfig struct {
 	NAME string

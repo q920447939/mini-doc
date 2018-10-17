@@ -10,7 +10,7 @@ function(hljs) {
   return {
     aliases: ['docker'],
     case_insensitive: true,
-    keywords: 'from maintainer expose env user onbuild',
+    keywords: 'from maintainer expose env rbac onbuild',
     contains: [
       hljs.HASH_COMMENT_MODE,
       hljs.APOS_STRING_MODE,
