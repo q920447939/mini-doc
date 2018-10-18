@@ -40,3 +40,6 @@
 | 注册中心 | 否       |
 | 配置中心 | 否       |
 
+
+
+[**项目采坑经历**](https://github.com/q920447939/mini-doc/blob/pr/note/NoteRecord.md)
