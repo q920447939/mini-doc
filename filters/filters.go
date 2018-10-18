@@ -3,7 +3,7 @@ package filters
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/contrib/sessions"
-	"wahaha/conf"
+	config "wahaha/conf"
 	"github.com/gin-contrib/cache/persistence"
 	"github.com/gin-contrib/cache"
 	"time"

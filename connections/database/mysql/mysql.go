@@ -44,7 +44,7 @@ func init() {
 
 	// 初始化其他连接
 
-	cons := config.GetCons()
+/*	cons := config.GetCons()
 	for k,v := range cons {
 		tempSql, openErr := sql.Open("mysql", v.DATABASE_USERNAME+
 			":"+ v.DATABASE_PASSWORD+ "@tcp("+ v.DATABASE_IP+
@@ -56,7 +56,7 @@ func init() {
 		tempSql.SetMaxIdleConns(50)   // 连接池连接数 = mysql最大连接数/2
 		tempSql.SetMaxOpenConns(150)  // 最大打开连接 = mysql最大连接数
 		sqlDBmap[k] = tempSql
-	}
+	}*/
 }
 
 func QueryWithConnection(con string, query string, args ...interface{}) ([]map[string]interface{}, *sql.Rows) {
