@@ -4,7 +4,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"morningo/filters/auth"
+	"wahaha/filters/auth"
 	mG "wahaha/init/gin"
 	"wahaha/routers"
 	_ "wahaha/connections/database/mysql"

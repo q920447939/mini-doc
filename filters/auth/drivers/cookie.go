@@ -2,7 +2,7 @@ package drivers
 
 import (
 	"github.com/gorilla/sessions"
-	"wahaha/conf"
+	config "wahaha/conf"
 	"net/http"
 	"github.com/gin-gonic/gin"
 )

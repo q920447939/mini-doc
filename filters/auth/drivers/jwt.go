@@ -6,7 +6,7 @@ import (
 	jwt_lib "github.com/dgrijalva/jwt-go"
 	"github.com/dgrijalva/jwt-go/request"
 	"log"
-	"wahaha/conf"
+	config "wahaha/conf"
 	"net/http"
 	"strings"
 	"time"
