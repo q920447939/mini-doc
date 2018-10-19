@@ -7,6 +7,9 @@ import (
 	"github.com/satori/go.uuid"
 		"net/http"
 	"wahaha/constant/httpcode"
+	"encoding/json"
+	"wahaha/constant"
+	"wahaha/connections/redis"
 	)
 
 type Member struct {
@@ -45,12 +48,12 @@ func AddUser(m rbac.Member) bool {
 	}else{
 		//把用户数据保存到redis
 		go func() {
-			/*m.Password = ""
+			m.Password = ""
 			json, err := json.Marshal(m)
 			if err != nil {
 				panic(err)
 			}
-			redis.Client.Set(constant.MEMBERS_JSON+m.MemberId, string(json), constant.EXPIRE_TIME)*/
+			redis.Client.Set(constant.MEMBERS_JSON+m.MemberId, string(json), constant.EXPIRE_TIME)
 		}()
 		//todo 发送邮箱验证用户
 

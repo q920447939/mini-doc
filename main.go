@@ -9,6 +9,7 @@ import (
 	"wahaha/routers"
 	_ "wahaha/connections/database/mysql"
 	_ "wahaha/connections/redis"
+	"fmt"
 )
 
 func main() {
@@ -16,10 +17,18 @@ func main() {
 	mG.InitGin(router)
 	routers.GinRouter()
 	router.Static("/static", "./static")
+	//router.Use(aaa())
 	//router.StaticFS("/more_static", http.Dir("my_file_system"))
 	//router.StaticFile("/favicon.ico", "./resources/favicon.ico")
 
 	router.Run()
+}
+
+func  aaa() gin.HandlerFunc {
+	return func(c *gin.Context)  {
+		c.Next()
+		fmt.Println(123)
+	}
 }
 
 func JwtSetExample(c *gin.Context) {

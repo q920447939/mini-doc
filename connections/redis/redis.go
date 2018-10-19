@@ -4,6 +4,7 @@ import (
 	"github.com/go-redis/redis"
 	config "wahaha/conf"
 	"time"
+	timeUtil "wahaha/utils/time"
 )
 
 type ClientType struct {
@@ -21,7 +22,7 @@ func init() {
 }
 
 func (client *ClientType) Set(key string, value interface{}, expiration time.Duration) *redis.Client {
-	err := client.RedisCon.Set(key, value, expiration).Err()
+	err := client.RedisCon.Set(key, value, timeUtil.NsToMs(expiration)).Err()
 	if err != nil {
 		panic(err)
 	}
