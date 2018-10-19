@@ -11,8 +11,7 @@ import (
 	"wahaha/utils/httpUtils"
 	"wahaha/base"
 	"wahaha/service/impl"
-	"fmt"
-	)
+)
 
 //注册页面
 func RegisteredHtml(context *gin.Context) {
@@ -32,8 +31,6 @@ func Register(context *gin.Context) {
 	var m rbac.Member
 	//由于gin BindJson使用有问题,所以自己写了一个json转结构体的工具类
 	//转为map
-	form := context.PostForm("account")
-	fmt.Println(form)
 	httpMap := httpUtils.GetHtppJsonToMap(context.Request)
 	//转为struct
 	httpUtils.MapToStruct(httpMap, &m)
@@ -43,8 +40,8 @@ func Register(context *gin.Context) {
 		context.JSON(http.StatusOK, b)
 	} else {
 		member := impl.Member{}
-		e := member.AddMember(m)
-		context.JSON(http.StatusOK,  e)
+		e := member.AddMember(&m)
+		context.JSON(http.StatusOK, e)
 	}
 }
 
@@ -55,7 +52,7 @@ func checkMember(httpMap map[string]interface{}, m *rbac.Member) (errMsg string,
 		errMsg = "账号只能由英文字母数字组成，且在3-50个字符"
 		return
 	}
-	if l := strings.Count(m.RealName, ""); l > 50  {
+	if l := strings.Count(m.RealName, ""); l > 50 {
 		errMsg = "读者姓名不能为空"
 		return
 	}
@@ -70,6 +67,32 @@ func checkMember(httpMap map[string]interface{}, m *rbac.Member) (errMsg string,
 	}
 	if ok, err := regexp.MatchString(conf.RegexpEmail, m.Email); !ok || err != nil || m.Email == "" {
 		errMsg = "邮箱格式不正确"
+		return
+	}
+	flg = true
+	return
+}
+
+func Login(context *gin.Context) {
+	var m rbac.Member
+	httpMap := httpUtils.GetHtppJsonToMap(context.Request)
+	httpUtils.MapToStruct(httpMap, &m)
+	if errMsg, flg := CheckLoginParams(httpMap); !flg {
+		b := base.ReturnCode(http.StatusOK, errMsg, nil)
+		context.JSON(http.StatusOK, b)
+	}
+	member := impl.Member{}
+	e := member.Login(&m)
+	context.JSON(http.StatusOK, e)
+}
+
+func CheckLoginParams(httpMap map[string]interface{}) (errMsg string, flg bool) {
+	if httpMap["account"] == "" {
+		errMsg = "账号不能为空!"
+		return
+	}
+	if httpMap["password"] == "" {
+		errMsg = "密码不能为空!"
 		return
 	}
 	flg = true

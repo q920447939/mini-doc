@@ -2,23 +2,24 @@ package impl
 
 import (
 	"wahaha/module/rbac"
-		"wahaha/models"
-		"wahaha/base"
+	"wahaha/models"
+	"wahaha/base"
 	"github.com/satori/go.uuid"
-		"net/http"
-	"wahaha/constant/httpcode"
 	"encoding/json"
 	"wahaha/constant"
 	"wahaha/connections/redis"
-	)
+	"wahaha/constant/httpcode"
+	"net/http"
+	"sync"
+)
 
 type Member struct {
 }
 
-func (member *Member) AddMember(m rbac.Member) (e *base.BaseReturnJson) {
-	var r  rbac.Member
+func (member *Member) AddMember(m *rbac.Member) (e *base.BaseReturnJson) {
+	var r rbac.Member
 	e = new(base.BaseReturnJson)
-	if error := models.Model.Where("account = ?", m.Account).First(&r).Error ; error != nil{
+	if error := models.Model.Where("account = ?", m.Account).First(&r).Error; error != nil {
 		e.Code = httpcode.MEMBER_READ_NAME_IS_EXISTS
 		e.Message = httpcode.MemberHttpCodes[httpcode.MEMBER_READ_NAME_IS_EXISTS]
 		return
@@ -35,7 +36,33 @@ func (member *Member) AddMember(m rbac.Member) (e *base.BaseReturnJson) {
 	}
 }
 
-func AddUser(m rbac.Member) bool {
+func (member *Member) Login(m *rbac.Member) (e *base.BaseReturnJson) {
+	var mutex sync.Mutex
+	mutex.Lock()
+	defer mutex.Unlock()
+	e = new(base.BaseReturnJson)
+	if err := models.Model.Where("account = ? and password = ? and status =1", m.Account,m.Password).Find(m).Error; err == nil {
+		e.Code = httpcode.ACCOUNT_OR_PASSWORD_IS_ERR
+		e.Message = httpcode.MemberHttpCodes[httpcode.ACCOUNT_OR_PASSWORD_IS_ERR]
+		return
+	}
+	memberChannel := make(chan string, 1)
+	go func() {
+		memberJson, _ := redis.Client.Get(constant.MEMBERS_JSON + m.MemberId)
+		if memberJson == "" {
+			addMemberToRedis(m)
+		}
+		memberChannel <- memberJson
+	}()
+	if <-memberChannel != "" {
+		e.Code = http.StatusOK
+		e.ExecuteStatus = true
+	}
+	return
+
+}
+
+func AddUser(m *rbac.Member) bool {
 	id, e := uuid.NewV4()
 	if e != nil {
 		panic(e)
@@ -45,15 +72,10 @@ func AddUser(m rbac.Member) bool {
 	err := models.Model.Create(&m).Error
 	if err != nil {
 		panic(err)
-	}else{
+	} else {
 		//把用户数据保存到redis
 		go func() {
-			m.Password = ""
-			json, err := json.Marshal(m)
-			if err != nil {
-				panic(err)
-			}
-			redis.Client.Set(constant.MEMBERS_JSON+m.MemberId, string(json), constant.EXPIRE_TIME)
+			addMemberToRedis(m)
 		}()
 		//todo 发送邮箱验证用户
 
@@ -61,4 +83,13 @@ func AddUser(m rbac.Member) bool {
 	}
 
 	return false
+}
+
+func addMemberToRedis(m *rbac.Member) {
+	m.Password = ""
+	json, err := json.Marshal(m)
+	if err != nil {
+		panic(err)
+	}
+	redis.Client.Set(constant.MEMBERS_JSON+m.MemberId, string(json), constant.EXPIRE_TIME)
 }

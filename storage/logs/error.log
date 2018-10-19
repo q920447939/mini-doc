@@ -1,0 +1,306 @@
+
+[2018-10-19 10:38:53] app.ERROR: runtime error: invalid memory address or nil pointer dereference
+Stack trace:
+goroutine 15 [running]:
+runtime/debug.Stack(0x0, 0x0, 0x0)
+	C:/Go/src/runtime/debug/stack.go:24 +0xb8
+morningo/module/logger.Error(0xe9bfc0, 0x13ba980)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/module/logger/logger.go:92 +0x46a
+wahaha/init/gin.handleErrors.func1.1(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/init/gin/GinInit.go:70 +0x7c
+panic(0xe9bfc0, 0x13ba980)
+	C:/Go/src/runtime/panic.go:502 +0x258
+wahaha/routers.ada(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/routers/Router.go:39 +0x165
+github.com/gin-gonic/gin.(*Context).Next(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+morningo/filters/auth.RegisterGlobalAuthDriver.func1(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/filters/auth/auth.go:29 +0xb9
+github.com/gin-gonic/gin.(*Context).Next(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+morningo/filters/auth.RegisterGlobalAuthDriver.func1(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/filters/auth/auth.go:29 +0xb9
+github.com/gin-gonic/gin.(*Context).Next(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-contrib/cache.Cache.func1(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-contrib/cache/cache.go:123 +0x79
+github.com/gin-gonic/gin.(*Context).Next(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-gonic/contrib/sessions.Sessions.func1(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/contrib/sessions/sessions.go:65 +0x1f0
+github.com/gin-gonic/gin.(*Context).Next(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+wahaha/init/gin.handleErrors.func1(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/init/gin/GinInit.go:98 +0x5a
+github.com/gin-gonic/gin.(*Context).Next(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+main.Validate.func1(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/main.go:58 +0x158
+github.com/gin-gonic/gin.(*Context).Next(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0xc042263320, 0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/gin.go:360 +0x44d
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0xc042263320, 0x1036620, 0xc04235e000, 0xc04211e900)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/gin.go:326 +0xd4
+net/http.serverHandler.ServeHTTP(0xc0421d9a00, 0x1036620, 0xc04235e000, 0xc04211e900)
+	C:/Go/src/net/http/server.go:2694 +0x1eb
+net/http.(*conn).serve(0xc0422f9180, 0x1037260, 0xc042193200)
+	C:/Go/src/net/http/server.go:1830 +0x11f9
+created by net/http.(*Server).Serve
+	C:/Go/src/net/http/server.go:2795 +0x6eb
+
+
+[2018-10-19 10:43:52] app.ERROR: runtime error: invalid memory address or nil pointer dereference
+Stack trace:
+goroutine 26 [running]:
+runtime/debug.Stack(0x0, 0x0, 0x0)
+	C:/Go/src/runtime/debug/stack.go:24 +0xb8
+morningo/module/logger.Error(0xe9bfc0, 0x13ba980)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/module/logger/logger.go:92 +0x46a
+wahaha/init/gin.handleErrors.func1.1(0xc0422fe840)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/init/gin/GinInit.go:70 +0x7c
+panic(0xe9bfc0, 0x13ba980)
+	C:/Go/src/runtime/panic.go:502 +0x258
+wahaha/routers.ada(0xc0422fe840)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/routers/Router.go:39 +0x165
+github.com/gin-gonic/gin.(*Context).Next(0xc0422fe840)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+morningo/filters/auth.RegisterGlobalAuthDriver.func1(0xc0422fe840)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/filters/auth/auth.go:29 +0xb9
+github.com/gin-gonic/gin.(*Context).Next(0xc0422fe840)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+morningo/filters/auth.RegisterGlobalAuthDriver.func1(0xc0422fe840)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/filters/auth/auth.go:29 +0xb9
+github.com/gin-gonic/gin.(*Context).Next(0xc0422fe840)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-contrib/cache.Cache.func1(0xc0422fe840)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-contrib/cache/cache.go:123 +0x79
+github.com/gin-gonic/gin.(*Context).Next(0xc0422fe840)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-gonic/contrib/sessions.Sessions.func1(0xc0422fe840)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/contrib/sessions/sessions.go:65 +0x1f0
+github.com/gin-gonic/gin.(*Context).Next(0xc0422fe840)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+wahaha/init/gin.handleErrors.func1(0xc0422fe840)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/init/gin/GinInit.go:98 +0x5a
+github.com/gin-gonic/gin.(*Context).Next(0xc0422fe840)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+main.Validate.func1(0xc0422fe840)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/main.go:58 +0x158
+github.com/gin-gonic/gin.(*Context).Next(0xc0422fe840)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0xc042099e60, 0xc0422fe840)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/gin.go:360 +0x44d
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0xc042099e60, 0x1036620, 0xc042340000, 0xc04211ec00)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/gin.go:326 +0xd4
+net/http.serverHandler.ServeHTTP(0xc0421d7110, 0x1036620, 0xc042340000, 0xc04211ec00)
+	C:/Go/src/net/http/server.go:2694 +0x1eb
+net/http.(*conn).serve(0xc042189b80, 0x1037260, 0xc0423342c0)
+	C:/Go/src/net/http/server.go:1830 +0x11f9
+created by net/http.(*Server).Serve
+	C:/Go/src/net/http/server.go:2795 +0x6eb
+
+
+[2018-10-19 10:45:21] app.ERROR: runtime error: invalid memory address or nil pointer dereference
+Stack trace:
+goroutine 49 [running]:
+runtime/debug.Stack(0x0, 0x0, 0x0)
+	C:/Go/src/runtime/debug/stack.go:24 +0xb8
+morningo/module/logger.Error(0xe9bee0, 0x13ba980)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/module/logger/logger.go:92 +0x46a
+wahaha/init/gin.handleErrors.func1.1(0xc04232c000)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/init/gin/GinInit.go:70 +0x7c
+panic(0xe9bee0, 0x13ba980)
+	C:/Go/src/runtime/panic.go:502 +0x258
+wahaha/routers.ada(0xc04232c000)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/routers/Router.go:38 +0x159
+github.com/gin-gonic/gin.(*Context).Next(0xc04232c000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+morningo/filters/auth.RegisterGlobalAuthDriver.func1(0xc04232c000)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/filters/auth/auth.go:29 +0xb9
+github.com/gin-gonic/gin.(*Context).Next(0xc04232c000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+morningo/filters/auth.RegisterGlobalAuthDriver.func1(0xc04232c000)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/filters/auth/auth.go:29 +0xb9
+github.com/gin-gonic/gin.(*Context).Next(0xc04232c000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-contrib/cache.Cache.func1(0xc04232c000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-contrib/cache/cache.go:123 +0x79
+github.com/gin-gonic/gin.(*Context).Next(0xc04232c000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-gonic/contrib/sessions.Sessions.func1(0xc04232c000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/contrib/sessions/sessions.go:65 +0x1f0
+github.com/gin-gonic/gin.(*Context).Next(0xc04232c000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+wahaha/init/gin.handleErrors.func1(0xc04232c000)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/init/gin/GinInit.go:98 +0x5a
+github.com/gin-gonic/gin.(*Context).Next(0xc04232c000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+main.Validate.func1(0xc04232c000)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/main.go:58 +0x158
+github.com/gin-gonic/gin.(*Context).Next(0xc04232c000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0xc042252480, 0xc04232c000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/gin.go:360 +0x44d
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0xc042252480, 0x1036500, 0xc042328000, 0xc042312100)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/gin.go:326 +0xd4
+net/http.serverHandler.ServeHTTP(0xc0421ef860, 0x1036500, 0xc042328000, 0xc042312100)
+	C:/Go/src/net/http/server.go:2694 +0x1eb
+net/http.(*conn).serve(0xc042318000, 0x1037140, 0xc0421ba1c0)
+	C:/Go/src/net/http/server.go:1830 +0x11f9
+created by net/http.(*Server).Serve
+	C:/Go/src/net/http/server.go:2795 +0x6eb
+
+
+[2018-10-19 10:46:49] app.ERROR: runtime error: invalid memory address or nil pointer dereference
+Stack trace:
+goroutine 13 [running]:
+runtime/debug.Stack(0x0, 0x0, 0x0)
+	C:/Go/src/runtime/debug/stack.go:24 +0xb8
+morningo/module/logger.Error(0xe9bea0, 0x13ba980)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/module/logger/logger.go:92 +0x46a
+wahaha/init/gin.handleErrors.func1.1(0xc042342000)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/init/gin/GinInit.go:70 +0x7c
+panic(0xe9bea0, 0x13ba980)
+	C:/Go/src/runtime/panic.go:502 +0x258
+wahaha/routers.ada(0xc042342000)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/routers/Router.go:38 +0x159
+github.com/gin-gonic/gin.(*Context).Next(0xc042342000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+morningo/filters/auth.RegisterGlobalAuthDriver.func1(0xc042342000)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/filters/auth/auth.go:29 +0xb9
+github.com/gin-gonic/gin.(*Context).Next(0xc042342000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+morningo/filters/auth.RegisterGlobalAuthDriver.func1(0xc042342000)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/filters/auth/auth.go:29 +0xb9
+github.com/gin-gonic/gin.(*Context).Next(0xc042342000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-contrib/cache.Cache.func1(0xc042342000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-contrib/cache/cache.go:123 +0x79
+github.com/gin-gonic/gin.(*Context).Next(0xc042342000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-gonic/contrib/sessions.Sessions.func1(0xc042342000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/contrib/sessions/sessions.go:65 +0x1f0
+github.com/gin-gonic/gin.(*Context).Next(0xc042342000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+wahaha/init/gin.handleErrors.func1(0xc042342000)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/init/gin/GinInit.go:98 +0x5a
+github.com/gin-gonic/gin.(*Context).Next(0xc042342000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+main.Validate.func1(0xc042342000)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/main.go:58 +0x158
+github.com/gin-gonic/gin.(*Context).Next(0xc042342000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0xc0421f4360, 0xc042342000)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/gin.go:360 +0x44d
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0xc0421f4360, 0x10364c0, 0xc04233c000, 0xc0422daa00)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/gin.go:326 +0xd4
+net/http.serverHandler.ServeHTTP(0xc0421c3110, 0x10364c0, 0xc04233c000, 0xc0422daa00)
+	C:/Go/src/net/http/server.go:2694 +0x1eb
+net/http.(*conn).serve(0xc042161b80, 0x1037100, 0xc0422d9a00)
+	C:/Go/src/net/http/server.go:1830 +0x11f9
+created by net/http.(*Server).Serve
+	C:/Go/src/net/http/server.go:2795 +0x6eb
+
+
+[2018-10-19 10:51:30] app.ERROR: runtime error: invalid memory address or nil pointer dereference
+Stack trace:
+goroutine 5 [running]:
+runtime/debug.Stack(0x0, 0x0, 0x0)
+	C:/Go/src/runtime/debug/stack.go:24 +0xb8
+morningo/module/logger.Error(0xe9c020, 0x13ba980)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/module/logger/logger.go:92 +0x46a
+wahaha/init/gin.handleErrors.func1.1(0xc04223c9a0)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/init/gin/GinInit.go:70 +0x7c
+panic(0xe9c020, 0x13ba980)
+	C:/Go/src/runtime/panic.go:502 +0x258
+wahaha/routers.ada(0xc04223c9a0)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/routers/Router.go:40 +0x1ce
+github.com/gin-gonic/gin.(*Context).Next(0xc04223c9a0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+morningo/filters/auth.RegisterGlobalAuthDriver.func1(0xc04223c9a0)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/filters/auth/auth.go:29 +0xb9
+github.com/gin-gonic/gin.(*Context).Next(0xc04223c9a0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+morningo/filters/auth.RegisterGlobalAuthDriver.func1(0xc04223c9a0)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/filters/auth/auth.go:29 +0xb9
+github.com/gin-gonic/gin.(*Context).Next(0xc04223c9a0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-contrib/cache.Cache.func1(0xc04223c9a0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-contrib/cache/cache.go:123 +0x79
+github.com/gin-gonic/gin.(*Context).Next(0xc04223c9a0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-gonic/contrib/sessions.Sessions.func1(0xc04223c9a0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/contrib/sessions/sessions.go:65 +0x1f0
+github.com/gin-gonic/gin.(*Context).Next(0xc04223c9a0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+wahaha/init/gin.handleErrors.func1(0xc04223c9a0)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/init/gin/GinInit.go:98 +0x5a
+github.com/gin-gonic/gin.(*Context).Next(0xc04223c9a0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+main.Validate.func1(0xc04223c9a0)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/main.go:58 +0x158
+github.com/gin-gonic/gin.(*Context).Next(0xc04223c9a0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0xc04226b200, 0xc04223c9a0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/gin.go:360 +0x44d
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0xc04226b200, 0x1036680, 0xc04232e0e0, 0xc042312e00)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/gin.go:326 +0xd4
+net/http.serverHandler.ServeHTTP(0xc04235c0d0, 0x1036680, 0xc04232e0e0, 0xc042312e00)
+	C:/Go/src/net/http/server.go:2694 +0x1eb
+net/http.(*conn).serve(0xc0423680a0, 0x10372c0, 0xc0423146c0)
+	C:/Go/src/net/http/server.go:1830 +0x11f9
+created by net/http.(*Server).Serve
+	C:/Go/src/net/http/server.go:2795 +0x6eb
+
+
+[2018-10-19 10:53:45] app.ERROR: runtime error: invalid memory address or nil pointer dereference
+Stack trace:
+goroutine 45 [running]:
+runtime/debug.Stack(0x0, 0x0, 0x0)
+	C:/Go/src/runtime/debug/stack.go:24 +0xb8
+morningo/module/logger.Error(0xe9c020, 0x13ba980)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/module/logger/logger.go:92 +0x46a
+wahaha/init/gin.handleErrors.func1.1(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/init/gin/GinInit.go:70 +0x7c
+panic(0xe9c020, 0x13ba980)
+	C:/Go/src/runtime/panic.go:502 +0x258
+wahaha/routers.ada(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/routers/Router.go:40 +0x1ce
+github.com/gin-gonic/gin.(*Context).Next(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+morningo/filters/auth.RegisterGlobalAuthDriver.func1(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/filters/auth/auth.go:29 +0xb9
+github.com/gin-gonic/gin.(*Context).Next(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+morningo/filters/auth.RegisterGlobalAuthDriver.func1(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/morningo/filters/auth/auth.go:29 +0xb9
+github.com/gin-gonic/gin.(*Context).Next(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-contrib/cache.Cache.func1(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-contrib/cache/cache.go:123 +0x79
+github.com/gin-gonic/gin.(*Context).Next(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-gonic/contrib/sessions.Sessions.func1(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/contrib/sessions/sessions.go:65 +0x1f0
+github.com/gin-gonic/gin.(*Context).Next(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+wahaha/init/gin.handleErrors.func1(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/init/gin/GinInit.go:98 +0x5a
+github.com/gin-gonic/gin.(*Context).Next(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+main.Validate.func1(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/wahaha/main.go:58 +0x158
+github.com/gin-gonic/gin.(*Context).Next(0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/context.go:108 +0xa3
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0xc04226b200, 0xc0420ae6e0)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/gin.go:360 +0x44d
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0xc04226b200, 0x1036680, 0xc042374000, 0xc04211e800)
+	E:/my-project/go_workspace/go_project01/project02/src/github.com/gin-gonic/gin/gin.go:326 +0xd4
+net/http.serverHandler.ServeHTTP(0xc04235c0d0, 0x1036680, 0xc042374000, 0xc04211e800)
+	C:/Go/src/net/http/server.go:2694 +0x1eb
+net/http.(*conn).serve(0xc042302fa0, 0x10372c0, 0xc042193300)
+	C:/Go/src/net/http/server.go:1830 +0x11f9
+created by net/http.(*Server).Serve
+	C:/Go/src/net/http/server.go:2795 +0x6eb
+

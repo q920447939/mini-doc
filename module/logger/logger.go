@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"io"
 	"log"
-	"morningo/config"
+	config "wahaha/conf"
 	"fmt"
 	"time"
 	"runtime/debug"

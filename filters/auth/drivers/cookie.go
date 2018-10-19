@@ -2,7 +2,7 @@ package drivers
 
 import (
 	"github.com/gorilla/sessions"
-	config "wahaha/conf"
+	config"wahaha/conf"
 	"net/http"
 	"github.com/gin-gonic/gin"
 )
@@ -18,6 +18,8 @@ func NewCookieAuthDriver() *cookieAuthManager {
 		name: config.GetCookieConfig().NAME,
 	}
 }
+
+
 
 func (cookie *cookieAuthManager) Check(c *gin.Context) bool {
 	// read cookie

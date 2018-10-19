@@ -1,7 +1,6 @@
 package main
 
 import (
-
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"wahaha/filters/auth"
@@ -10,22 +9,23 @@ import (
 	_ "wahaha/connections/database/mysql"
 	_ "wahaha/connections/redis"
 	"fmt"
+	"wahaha/connections/redis"
+	"strings"
 )
 
 func main() {
 	router := gin.New()
+	router.Static("/static", "./static")
+	router.StaticFS("/more_static", http.Dir("my_file_system"))
+	router.StaticFile("/favicon.ico", "./resources/favicon.ico")
+	router.Use(ValidToken())
 	mG.InitGin(router)
 	routers.GinRouter()
-	router.Static("/static", "./static")
-	router.Use(Validate())
-	//router.StaticFS("/more_static", http.Dir("my_file_system"))
-	//router.StaticFile("/favicon.ico", "./resources/favicon.ico")
-
 	router.Run()
 }
 
-func  aaa() gin.HandlerFunc {
-	return func(c *gin.Context)  {
+func aaa() gin.HandlerFunc {
+	return func(c *gin.Context) {
 		c.Next()
 		fmt.Println(123)
 	}
@@ -45,19 +45,69 @@ func JwtSetExample(c *gin.Context) {
 	})
 }
 
-func Validate() gin.HandlerFunc{
-	return func(c *gin.Context){
-		//这一部分可以替换成从session/cookie中获取，
-		username:=c.Query("username")
-		password:=c.Query("password")
-
-		if username=="ft" && password =="123"{
-			c.JSON(http.StatusOK,gin.H{"message":"身份验证成功"})
-			c.Next()  //该句可以省略，写出来只是表明可以进行验证下一步中间件，不写，也是内置会继续访问下一个中间件的
-		}else {
-			c.Abort()
-			c.JSON(http.StatusUnauthorized,gin.H{"message":"身份验证失败"})
-			return// return也是可以省略的，执行了abort操作，会内置在中间件defer前，return，写出来也只是解答为什么Abort()之后，还能执行返回JSON数据
+func ValidToken() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		/*if cookie, err := c.Request.Cookie("session_id"); err == nil {
+			value := cookie.Value
+			fmt.Println(value)
+			if value == "onion" {
+				c.Next()
+				return
+			}
 		}
+		if url := c.Request.URL.String(); url == "/add" {
+			c.Next()
+			return
+		}
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Unauthorized",
+		})
+		c.Abort()*/
+		url := c.Request.URL.String()
+		if url == "/user/add" {
+			c.Next()
+			return
+		} else {
+			for _, v := range FilterMap {
+				siles := strings.Split(string(v),".")
+				if len(siles) >1 {
+					s := FilterMap[siles[len(siles)-1] ]
+					if s != "" {
+						c.Next()
+					}
+				}
+			}
+			checkToken(c)
+		}
+		return
 	}
+
+}
+
+const (
+	FilterCss  = ".css"
+	FilterJs   = ".js"
+	FilterHtml = ".html"
+)
+
+var FilterMap = map[string]string{
+	FilterCss:  FilterCss,
+	FilterJs:   FilterJs,
+	FilterHtml: FilterHtml,
+}
+
+func checkToken(c *gin.Context) {
+	access_token := c.Param("access_token")
+	if access_token == "" {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "access_token is not empty!",
+		})
+	}
+	Rvalue, _ := redis.Client.Get(access_token)
+	if Rvalue == "" {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "access_token is fake or expire!",
+		})
+	}
+
 }

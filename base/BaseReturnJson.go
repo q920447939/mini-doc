@@ -3,7 +3,7 @@ package base
 import "encoding/json"
 
 type BaseReturnJson struct {
-	ExecuteStatus bool `json:"-"`
+	ExecuteStatus bool `json:"-"` //执行状态
 	Code    int         `json:"code"`
 	Message string      `json:"message"`
 	Data    interface{} `json:"data"`

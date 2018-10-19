@@ -5,10 +5,10 @@ import (
 	config "wahaha/conf"
 	"runtime"
 	"github.com/gin-contrib/pprof"
-	"morningo/filters"
-	"morningo/filters/auth"
+	"wahaha/filters"
+	"wahaha/filters/auth"
 	"net/http"
-	"morningo/module/logger"
+	"wahaha/module/logger"
 	"github.com/go-sql-driver/mysql"
 	ig "wahaha/module/gin"
 )

@@ -7,4 +7,5 @@ import (
 
 type  AccountService interface {
 	AddMember(m *rbac.Member) (e *	base.BaseReturnJson)
+	Login(m *rbac.Member) (e *	base.BaseReturnJson)
 }

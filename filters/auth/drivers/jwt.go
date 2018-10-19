@@ -47,7 +47,7 @@ func (jwtAuth *jwtAuthManager) Check(c *gin.Context) bool {
 	}
 
 	c.Set("User", map[string]interface{}{
-		"token": authJwtToken,
+		"token" : authJwtToken,
 	})
 
 	return authJwtToken.Valid
@@ -84,8 +84,8 @@ func (jwtAuth *jwtAuthManager) User(c *gin.Context) interface{} {
 			return map[interface{}]interface{}{}
 		}
 		c.Set("User", map[string]interface{}{
-			"token": jwtToken,
-			"rbac":  user,
+			"token" : jwtToken,
+			"rbac" : user,
 		})
 		return user
 	} else {
