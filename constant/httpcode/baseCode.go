@@ -2,7 +2,7 @@ package httpcode
 
 
 const (
-	//邮箱不能为空
+	//系统错误
 	BASE_SYS_ERROR_CODE = 41000
 )
 
