@@ -8,8 +8,7 @@ import (
 	"wahaha/routers"
 	_ "wahaha/connections/database/mysql"
 	_ "wahaha/connections/redis"
-	"fmt"
-	"wahaha/connections/redis"
+		"wahaha/connections/redis"
 	"strings"
 )
 
@@ -27,7 +26,6 @@ func main() {
 func aaa() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Next()
-		fmt.Println(123)
 	}
 }
 
@@ -64,7 +62,7 @@ func ValidToken() gin.HandlerFunc {
 		})
 		c.Abort()*/
 		url := c.Request.URL.String()
-		if url == "/user/add" {
+		if url == "/register"  || url == "/user/add"{
 			c.Next()
 			return
 		} else {

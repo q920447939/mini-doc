@@ -46,7 +46,10 @@ func Register(context *gin.Context) {
 }
 
 func checkMember(httpMap map[string]interface{}, m *rbac.Member) (errMsg string, flg bool) {
-	confirmPassword := httpMap["confirmPassword"].(string)
+	var confirmPassword string
+	if value := httpMap["confirmPassword"] ; value != nil{
+		confirmPassword= value.(string)
+	}
 
 	if ok, err := regexp.MatchString(conf.RegexpAccount, m.Account); !ok || err != nil {
 		errMsg = "账号只能由英文字母数字组成，且在3-50个字符"

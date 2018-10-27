@@ -19,7 +19,7 @@ type Member struct {
 func (member *Member) AddMember(m *rbac.Member) (e *base.BaseReturnJson) {
 	var r rbac.Member
 	e = new(base.BaseReturnJson)
-	if error := models.Model.Where("account = ?", m.Account).First(&r).Error; error != nil {
+	if  models.Model.Where("account = ?", m.Account).First(&r); r.MemberId != "" {
 		e.Code = httpcode.MEMBER_READ_NAME_IS_EXISTS
 		e.Message = httpcode.MemberHttpCodes[httpcode.MEMBER_READ_NAME_IS_EXISTS]
 		return

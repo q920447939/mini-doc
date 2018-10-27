@@ -11,7 +11,7 @@ import (
 	"wahaha/module/logger"
 	"github.com/go-sql-driver/mysql"
 	ig "wahaha/module/gin"
-)
+	)
 
 func InitGin(r *gin.Engine) {
 	ig.GinEngine = r
@@ -58,8 +58,8 @@ func ginProperties() {
 }
 
 func loadHtmlGlob() {
-	ig.GinEngine.LoadHTMLGlob(config.GetEnv().TEMPLATE_PATH + "/*") // html模板
-
+	ig.GinEngine.LoadHTMLGlob("views/*") // html模板
+	//ig.GinEngine.LoadHTMLGlob("views/**/*")
 }
 
 func handleErrors() gin.HandlerFunc {
@@ -68,6 +68,7 @@ func handleErrors() gin.HandlerFunc {
 			if err := recover(); err != nil {
 
 				logger.Error(err)
+				panic(err)
 
 				var (
 					errMsg     string
@@ -82,13 +83,13 @@ func handleErrors() gin.HandlerFunc {
 					return
 				} else if mysqlError, ok = err.(*mysql.MySQLError); ok {
 					c.JSON(http.StatusInternalServerError, gin.H{
-						"code": 500,
+						"code": 501,
 						"msg":  "system error, " + mysqlError.Error(),
 					})
 					return
 				} else {
 					c.JSON(http.StatusInternalServerError, gin.H{
-						"code": 500,
+						"code": 502,
 						"msg":  "system error",
 					})
 					return
