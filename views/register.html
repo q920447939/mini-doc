@@ -122,12 +122,8 @@
 
 
         $("#btnRegister").click(function () {
-            var account = $.trim($("#account").val());
-            var password = $.trim($("#password1").val());
-            var confirmPassword = $.trim($("#password2").val());
-            var code = $.trim($("#code").val());
-            var email = $.trim($("#email").val());
-            $.post("/user/add",{
+
+/*            $.post("/user/add",{
                 account:account,
                 password:password,
                 confirmPassword:confirmPassword,
@@ -135,9 +131,41 @@
                 email:email
             },function(result){
                 $("span").html(result);
+            });*/
+
+            $.ajax({
+                type: "POST",
+                url: "/user/add",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(GetJsonData()),
+                dataType: "json",
+                success: function (message) {
+                    if (message > 0) {
+                        alert("请求已提交！我们会尽快与您取得联系");
+                    }
+                },
+                error: function (message) {
+                    $("#request-process-patent").html("提交数据失败！");
+                }
             });
         })
     });
+
+    function GetJsonData() {
+        var account = $.trim($("#account").val());
+        var password = $.trim($("#password1").val());
+        var confirmPassword = $.trim($("#password2").val());
+        var code = $.trim($("#code").val());
+        var email = $.trim($("#email").val());
+        var json = {
+            "account":account,
+            "password":password,
+            "confirmPassword":confirmPassword,
+            "code":code,
+            "email":email
+        };
+        return json;
+    }
 
 
 </script>
