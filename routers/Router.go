@@ -24,4 +24,13 @@ func GinRouter() {
 		userGroup.POST("/login", controllers.Login)
 	}
 
+
+	menus := ig.GinEngine.Group("/menus")
+	{
+		viewMenus := menus.Group("/view")
+		{
+			viewMenus.GET("/top",controllers.FindIndexMenus)
+		}
+	}
+
 }

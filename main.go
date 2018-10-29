@@ -17,7 +17,7 @@ func main() {
 	router.Static("/static", "./static")
 	router.StaticFS("/more_static", http.Dir("my_file_system"))
 	router.StaticFile("/favicon.ico", "./resources/favicon.ico")
-	router.Use(ValidToken())
+	//router.Use(ValidToken())
 	mG.InitGin(router)
 	routers.GinRouter()
 	router.Run()
@@ -100,12 +100,14 @@ func checkToken(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "access_token is not empty!",
 		})
+		return
 	}
 	Rvalue, _ := redis.Client.Get(access_token)
 	if Rvalue == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "access_token is fake or expire!",
 		})
+		return
 	}
 
 }

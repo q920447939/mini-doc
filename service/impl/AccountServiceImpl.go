@@ -39,8 +39,8 @@ func (member *Member) AddMember(m *rbac.Member) (e *base.BaseReturnJson) {
 func (member *Member) Login(m *rbac.Member) (e *base.BaseReturnJson) {
 	var mutex sync.Mutex
 	mutex.Lock()
-	defer mutex.Unlock()
 	e = new(base.BaseReturnJson)
+	defer mutex.Unlock()
 	if err := models.Model.Where("account = ? and password = ? and status =1", m.Account,m.Password).Find(m).Error; err == nil {
 		e.Code = httpcode.ACCOUNT_OR_PASSWORD_IS_ERR
 		e.Message = httpcode.MemberHttpCodes[httpcode.ACCOUNT_OR_PASSWORD_IS_ERR]
