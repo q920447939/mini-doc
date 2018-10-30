@@ -2,7 +2,7 @@ package impl
 
 import (
 	"wahaha/module/rbac"
-	"wahaha/models"
+	models "wahaha/module/gin"
 	"wahaha/base"
 	"github.com/satori/go.uuid"
 	"encoding/json"
@@ -41,11 +41,13 @@ func (member *Member) Login(m *rbac.Member) (e *base.BaseReturnJson) {
 	mutex.Lock()
 	e = new(base.BaseReturnJson)
 	defer mutex.Unlock()
-	if err := models.Model.Where("account = ? and password = ? and status =1", m.Account,m.Password).Find(m).Error; err == nil {
+	if err := models.Model.Unscoped().Where("account = ? and password = ? and status =1", m.Account,m.Password).Find(m).Error; err != nil || m.MemberId == "" {
+
 		e.Code = httpcode.ACCOUNT_OR_PASSWORD_IS_ERR
 		e.Message = httpcode.MemberHttpCodes[httpcode.ACCOUNT_OR_PASSWORD_IS_ERR]
 		return
 	}
+	e.ExecuteStatus = true
 	memberChannel := make(chan string, 1)
 	go func() {
 		memberJson, _ := redis.Client.Get(constant.MEMBERS_JSON + m.MemberId)
@@ -55,8 +57,7 @@ func (member *Member) Login(m *rbac.Member) (e *base.BaseReturnJson) {
 		memberChannel <- memberJson
 	}()
 	if <-memberChannel != "" {
-		e.Code = http.StatusOK
-		e.ExecuteStatus = true
+		addMemberToRedis(m)
 	}
 	return
 

@@ -127,56 +127,14 @@
             </nav>
         </div>
     </header>
+
+
     <div class="container manual-body">
         <div class="row">
 
 
             <div class="manual-list">
 
-                <div class="list-item">
-                    <dl class="manual-item-standard">
-                        <dt>
-                            <a href="http://localhost:8181/docs/demo" title="测试标题-admin" target="_blank">
-                                <img src="http://localhost:8181/uploads/201810/cover_15620129387af4c0.png" class="cover"
-                                     alt="测试标题-admin"
-                                     onerror="this.src='http:\/\/localhost:8181\/static\/images\/book.jpg';">
-                            </a>
-                        </dt>
-                        <dd>
-                            <a href="http://localhost:8181/docs/demo" class="name" title="测试标题-admin" target="_blank">测试标题</a>
-                        </dd>
-                        <dd>
-                            <span class="author">
-                                <b class="text">作者</b>
-                                <b class="text">-</b>
-                                <b class="text">admin</b>
-                            </span>
-                        </dd>
-                    </dl>
-                </div>
-
-                <div class="list-item">
-                    <dl class="manual-item-standard">
-                        <dt>
-                            <a href="http://localhost:8181/docs/mindoc" title="MinDoc演示项目-admin" target="_blank">
-                                <img src="http://localhost:8181/static/images/book.jpg" class="cover"
-                                     alt="MinDoc演示项目-admin"
-                                     onerror="this.src='http:\/\/localhost:8181\/static\/images\/book.jpg';">
-                            </a>
-                        </dt>
-                        <dd>
-                            <a href="http://localhost:8181/docs/mindoc" class="name" title="MinDoc演示项目-admin"
-                               target="_blank">MinDoc演示项目</a>
-                        </dd>
-                        <dd>
-                            <span class="author">
-                                <b class="text">作者</b>
-                                <b class="text">-</b>
-                                <b class="text">admin</b>
-                            </span>
-                        </dd>
-                    </dl>
-                </div>
 
                 <div class="clearfix"></div>
             </div>
@@ -206,6 +164,43 @@
 
 <script type="text/javascript">
     $(function () {
+        LoadTopMenus();
+        $.get("/book/list", function (r) {
+            var _html = "";
+            if (r.code == 200) {
+                $.each(r.data, function (i, item) {
+                    _html += '<div class="list-item">';
+                    _html += '       <dl class="manual-item-standard">';
+                    _html += '           <dt>';
+                    _html += '               <a href="http://localhost:8181/docs/demo" title="'+item.Book_name+'" target="_blank">';
+                    _html += '                   <img src="http://localhost:8181/uploads/201810/cover_15620129387af4c0.png" class="cover"';
+                    _html += '                        alt="'+item.Book_name+'" onerror="this.src="">';
+                    _html += '               </a>';
+                    _html += '           </dt>';
+                    _html += '           <dd>';
+                    _html += '               <a href="http://localhost:8181/docs/demo" class="name" title="测试标题-admin" target="_blank">测试标题</a>';
+                    _html += '           </dd>';
+                    _html += '           <dd>';
+                    _html += '               <span class="author">';
+                    _html += '                   <b class="text">作者</b>';
+                    _html += '                   <b class="text">-</b>';
+                    _html += '                   <b class="text">admin</b>';
+                    _html += '               </span>';
+                    _html += '           </dd>';
+                    _html += '       </dl>';
+                    _html += '   </div>';
+                })
+            } else {
+
+            }
+        })
+    })
+
+    /**
+     * 加载头部菜单
+     * @constructor
+     */
+    function LoadTopMenus() {
         $.get("/menus/view/top", function (r) {
             var _html = "";
             if (r.code == 200) {
@@ -221,7 +216,7 @@
                 $(".col-sm-10 .navbar-nav").append(_html)
             }
         })
-    })
+    }
 </script>
 
 </body>

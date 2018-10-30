@@ -5,7 +5,7 @@ import "time"
 type Member struct {
 	Id uint    `gorm:"column:id;auto_increment" ;json:"id" `
 	MemberId string  `gorm:"column:member_id;	type:varchar(50);	unique;	not null;" `
-	Account  string `gorm:"column:account;form:account;	type:varchar(50);	unique;	not null; binding:required" json:account "`
+	Account  string `gorm:"column:account;form:account;	type:varchar(50);	unique;	not null; binding:required"  json:"account" `
 	RealName string  `gorm:"column:real_name;form:realname;	type:varchar(100);	not null " ;json:"real_name"`
 	Password string `gorm:"column:password;form:password;	type:varchar(20);	not null ; binding:required" ;json:"password"`
 	//认证方式: local 本地数据库 /ldap LDAP

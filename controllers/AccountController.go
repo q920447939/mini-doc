@@ -11,7 +11,8 @@ import (
 	"wahaha/utils/httpUtils"
 	"wahaha/base"
 	"wahaha/service/impl"
-)
+	"wahaha/utils/jwt"
+	)
 
 //注册页面
 func RegisteredHtml(context *gin.Context) {
@@ -31,6 +32,7 @@ func Register(context *gin.Context) {
 	var m rbac.Member
 	//由于gin BindJson使用有问题,所以自己写了一个json转结构体的工具类
 	//转为map
+
 	httpMap := httpUtils.GetHtppJsonToMap(context.Request)
 	//转为struct
 	httpUtils.MapToStruct(httpMap, &m)
@@ -47,8 +49,8 @@ func Register(context *gin.Context) {
 
 func checkMember(httpMap map[string]interface{}, m *rbac.Member) (errMsg string, flg bool) {
 	var confirmPassword string
-	if value := httpMap["confirmPassword"] ; value != nil{
-		confirmPassword= value.(string)
+	if value := httpMap["confirmPassword"]; value != nil {
+		confirmPassword = value.(string)
 	}
 
 	if ok, err := regexp.MatchString(conf.RegexpAccount, m.Account); !ok || err != nil {
@@ -78,26 +80,76 @@ func checkMember(httpMap map[string]interface{}, m *rbac.Member) (errMsg string,
 
 func Login(context *gin.Context) {
 	var m rbac.Member
-	httpMap := httpUtils.GetHtppJsonToMap(context.Request)
-	httpUtils.MapToStruct(httpMap, &m)
-	if errMsg, flg := CheckLoginParams(httpMap); !flg {
+	if err := context.BindJSON(&m); err != nil {
+		panic(err)
+		return
+	}
+	if errMsg, flg := CheckLoginParams(&m); !flg {
 		b := base.ReturnCode(http.StatusOK, errMsg, nil)
 		context.JSON(http.StatusOK, b)
+		return
 	}
 	member := impl.Member{}
-	e := member.Login(&m)
-	context.JSON(http.StatusOK, e)
+
+	if e := member.Login(&m) ;!e.ExecuteStatus{
+		context.JSON(http.StatusOK, e)
+		return
+	}
+	//放到session
+	if token, err := jwt.GenerateToken(m.Account, m.Password); err != nil {
+		panic(err)
+	} else {
+		slice := strings.Split(context.Request.URL.String(), "redirect_url")
+		var redictUrl string
+		if len(slice) > 1 {
+			redictUrl = slice[1]
+		} else {
+			redictUrl = "minidoc"
+		}
+		context.JSON(http.StatusOK, gin.H{
+			"code":       http.StatusOK,
+			"data":       token,
+			"redict_url": redictUrl,
+		})
+	}
 }
 
-func CheckLoginParams(httpMap map[string]interface{}) (errMsg string, flg bool) {
-	if httpMap["account"] == "" {
+func CheckLoginParams(m *rbac.Member) (errMsg string, flg bool) {
+	if m.Account == "" {
 		errMsg = "账号不能为空!"
 		return
 	}
-	if httpMap["password"] == "" {
+	if m.Password == "" {
 		errMsg = "密码不能为空!"
 		return
 	}
 	flg = true
 	return
+}
+
+
+// 验证码
+func  Captcha(context *gin.Context) {
+/*
+	captchaImage, err := gocaptcha.NewCaptchaImage(140, 40, gocaptcha.RandLightColor())
+
+	if err != nil {
+		beego.Error(err)
+		c.Abort("500")
+	}
+
+	captchaImage.DrawNoise(gocaptcha.CaptchaComplexLower)
+
+	// captchaImage.DrawTextNoise(gocaptcha.CaptchaComplexHigh)
+	txt := gocaptcha.RandText(4)
+
+	c.SetSession(conf.CaptchaSessionName, txt)
+
+	captchaImage.DrawText(txt)
+	// captchaImage.Drawline(3);
+	captchaImage.DrawBorder(gocaptcha.ColorToRGB(0x17A7A7A))
+	// captchaImage.DrawHollowLine()
+
+	captchaImage.SaveImage(c.Ctx.ResponseWriter, gocaptcha.ImageFormatJpeg)
+	c.StopRun()*/
 }

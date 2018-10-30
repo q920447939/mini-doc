@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"wahaha/filters/auth"
 	mG "wahaha/init/gin"
 	"wahaha/routers"
 	_ "wahaha/connections/database/mysql"
@@ -21,26 +20,6 @@ func main() {
 	mG.InitGin(router)
 	routers.GinRouter()
 	router.Run()
-}
-
-func aaa() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Next()
-	}
-}
-
-func JwtSetExample(c *gin.Context) {
-	authDr, _ := c.MustGet("jwt_auth").(*auth.Auth)
-
-	token, _ := (*authDr).Login(c.Request, c.Writer, map[string]interface{}{"id": "123"}).(string)
-
-	c.JSON(http.StatusOK, gin.H{
-		"code": 0,
-		"msg":  "ok",
-		"data": gin.H{
-			"token": token,
-		},
-	})
 }
 
 func ValidToken() gin.HandlerFunc {
