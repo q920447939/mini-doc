@@ -23,9 +23,7 @@ import (
 	"os/exec"
 	"fmt"
 	"path/filepath"
-	"wahaha/constant/static"
-	 ini "wahaha/init/static"
-)
+		 )
 
 var (
 	dpi        = flag.Float64("dpi", 72, "screen resolution in Dots Per Inch")
@@ -395,7 +393,7 @@ func getCurrentPath() string {
 
 //获取所及字体.
 func RandFontFamily() (*truetype.Font, error) {
-	fontBytes, err := ioutil.ReadFile(ini.TtlConstantMap[static.TTL_PATH])
+	fontBytes, err := ioutil.ReadFile("Pointy.ttf")
 	if err != nil {
 		log.Println(err)
 		return &truetype.Font{}, err
