@@ -78,9 +78,7 @@
                         <input type="text" name="code" id="code" class="form-control" style="width: 150px" maxlength="5"
                                placeholder="验证码" autocomplete="off">&nbsp;
                     </div>
-                {{/*
-                    <img id="captcha-img" style="width: 140px;height: 40px;display: inline-block;float: right" src="{{urlfor "AccountController.Captcha"}}" onclick="this.src='{{urlfor "AccountController.Captcha"}}?key=login&t='+(new Date()).getTime();" title="点击换一张">
-*/}}
+                    <img id="captcha-img" style="width: 140px;height: 40px;display: inline-block;float: right"   src="{{.captcha}}"  onclick="this.src='{{.captcha}}?t='+(new Date()).getTime();" title="点击换一张">
                     <div class="clearfix"></div>
                 </div>
 
@@ -130,6 +128,23 @@
                 }
             });
         })
+
+
+       /* document.getElementById('captcha-img').onclick = function(e){
+            $.ajax({
+                type:'GET',
+                url:"/login/captcha?time="+new Date().getTime(),
+                resDataType:'blob',
+                imgType:'png',
+                success:function(resText){
+                    $("#captcha-img").attr("src","data:image/png;base64,"+resText)
+                },
+                fail:function(err){
+                    console.log(err)
+                }
+            });
+            e.preventDefault();
+        }*/
     });
 
     function GetJsonData() {
@@ -148,6 +163,15 @@
         return json;
     }
 
+
+    function getImg() {
+
+
+      /*  $.get("/login/captcha?time="+new Date().getTime(),function (rs) {
+            console.log(rs)
+            $("#captcha-img").attr("src",rs)
+        });*/
+    }
 
 </script>
 </body>

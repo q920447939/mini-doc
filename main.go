@@ -7,8 +7,9 @@ import (
 	"wahaha/routers"
 	_ "wahaha/connections/database/mysql"
 	_ "wahaha/connections/redis"
-		"wahaha/connections/redis"
+	"wahaha/connections/redis"
 	"strings"
+	mmodule_gin "wahaha/module/gin"
 )
 
 func main() {
@@ -16,10 +17,9 @@ func main() {
 	router.Static("/static", "./static")
 	router.StaticFS("/more_static", http.Dir("my_file_system"))
 	router.StaticFile("/favicon.ico", "./resources/favicon.ico")
-	//router.Use(ValidToken())
 	mG.InitGin(router)
 	routers.GinRouter()
-	router.Run()
+	mmodule_gin.Run(router)
 }
 
 func ValidToken() gin.HandlerFunc {
@@ -41,13 +41,13 @@ func ValidToken() gin.HandlerFunc {
 		})
 		c.Abort()*/
 		url := c.Request.URL.String()
-		if url == "/register"  || url == "/user/add"{
+		if url == "/register" || url == "/user/add" {
 			c.Next()
 			return
 		} else {
 			for _, v := range FilterMap {
-				siles := strings.Split(string(v),".")
-				if len(siles) >1 {
+				siles := strings.Split(string(v), ".")
+				if len(siles) > 1 {
 					s := FilterMap[siles[len(siles)-1] ]
 					if s != "" {
 						c.Next()

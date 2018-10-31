@@ -8,22 +8,24 @@ import (
 	"regexp"
 	"wahaha/conf"
 	"strings"
-	"wahaha/utils/httpUtils"
 	"wahaha/base"
 	"wahaha/service/impl"
 	"wahaha/utils/jwt"
 	"wahaha/utils/gocaptcha"
-		)
+	"wahaha/constant/httpcode"
+)
 
 //注册页面
 func RegisteredHtml(context *gin.Context) {
 	baseName, _ := utils.AppConfigMap[utils.BASE_NAME]
 	htmlTitle, _ := utils.AppConfigMap[utils.HTML_TITLE]
 	baseUrl, _ := utils.AppConfigMap[utils.BASE_URL]
+
 	context.HTML(http.StatusOK, "register.html", gin.H{
 		"baseName":            baseName,
 		"registeredHTMLTitle": htmlTitle,
 		"baseUrl":             baseUrl,
+		"captcha":"http://"+conf.GetEnv().ServerConfig.SERVER_IP+":"+conf.GetEnv().ServerConfig.SERVER_PORT+"/login/captcha",
 	})
 
 }
@@ -31,13 +33,32 @@ func RegisteredHtml(context *gin.Context) {
 //注册
 func Register(context *gin.Context) {
 	var m rbac.Member
-	//由于gin BindJson使用有问题,所以自己写了一个json转结构体的工具类
-	//转为map
-
-	httpMap := httpUtils.GetHtppJsonToMap(context.Request)
-	//转为struct
-	httpUtils.MapToStruct(httpMap, &m)
-	errMsg, ok := checkMember(httpMap, &m)
+	if err := context.BindJSON(&m); err != nil {
+		baseResult := base.BaseReturnJson{
+			Code:    httpcode.BASE_SYS_ERROR_CODE,
+			Message: httpcode.MemberHttpCodes[httpcode.BASE_SYS_ERROR_CODE],
+		}
+		context.JSON(http.StatusOK, baseResult)
+		return
+	}
+	var code string
+	if code = context.PostForm("code"); code == "" {
+		baseResult := base.BaseReturnJson{
+			Code:    httpcode.CODE_IS_EMPTY,
+			Message: httpcode.MemberHttpCodes[httpcode.CODE_IS_EMPTY],
+		}
+		context.JSON(http.StatusOK, baseResult)
+		return
+	}
+	errMsg, ok := checkMember(&m)
+	if value, exists := context.Get(conf.CaptchaSessionName);!exists ||  value != code {
+		baseResult := base.BaseReturnJson{
+			Code:    httpcode.CODE_IS_NOT_EQUAL,
+			Message: httpcode.MemberHttpCodes[httpcode.CODE_IS_NOT_EQUAL],
+		}
+		context.JSON(http.StatusOK, baseResult)
+		return
+	}
 	if !ok {
 		b := base.ReturnCode(http.StatusOK, errMsg, nil)
 		context.JSON(http.StatusOK, b)
@@ -48,12 +69,8 @@ func Register(context *gin.Context) {
 	}
 }
 
-func checkMember(httpMap map[string]interface{}, m *rbac.Member) (errMsg string, flg bool) {
+func checkMember(m *rbac.Member) (errMsg string, flg bool) {
 	var confirmPassword string
-	if value := httpMap["confirmPassword"]; value != nil {
-		confirmPassword = value.(string)
-	}
-
 	if ok, err := regexp.MatchString(conf.RegexpAccount, m.Account); !ok || err != nil {
 		errMsg = "账号只能由英文字母数字组成，且在3-50个字符"
 		return
@@ -75,6 +92,7 @@ func checkMember(httpMap map[string]interface{}, m *rbac.Member) (errMsg string,
 		errMsg = "邮箱格式不正确"
 		return
 	}
+
 	flg = true
 	return
 }
@@ -92,7 +110,7 @@ func Login(context *gin.Context) {
 	}
 	member := impl.Member{}
 
-	if e := member.Login(&m) ;!e.ExecuteStatus{
+	if e := member.Login(&m); !e.ExecuteStatus {
 		context.JSON(http.StatusOK, e)
 		return
 	}
@@ -128,9 +146,8 @@ func CheckLoginParams(m *rbac.Member) (errMsg string, flg bool) {
 	return
 }
 
-
 // 验证码
-func  Captcha(context *gin.Context) {
+func Captcha(context *gin.Context) {
 
 	captchaImage, err := gocaptcha.NewCaptchaImage(140, 40, gocaptcha.RandLightColor())
 
@@ -143,7 +160,7 @@ func  Captcha(context *gin.Context) {
 	// captchaImage.DrawTextNoise(gocaptcha.CaptchaComplexHigh)
 	txt := gocaptcha.RandText(4)
 
-	context.Set(conf.CaptchaSessionName,txt)
+	context.Set(conf.CaptchaSessionName, txt)
 	//c.SetSession(conf.CaptchaSessionName, txt)
 
 	captchaImage.DrawText(txt)

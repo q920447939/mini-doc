@@ -24,9 +24,9 @@ func init() {
 	// 初始化默认连接
 
 	var err error
-	SqlDB, err = sql.Open("mysql", config.GetEnv().DATABASE_USERNAME+
-		":"+ config.GetEnv().DATABASE_PASSWORD+ "@tcp("+ config.GetEnv().DATABASE_IP+
-		":"+ config.GetEnv().DATABASE_PORT+ ")/"+ config.GetEnv().DATABASE_NAME+ "?charset=utf8mb4&parseTime=true")
+	SqlDB, err = sql.Open("mysql", config.GetEnv().DatebaseConfig.DATABASE_USERNAME+
+		":"+ config.GetEnv().DatebaseConfig.DATABASE_PASSWORD+ "@tcp("+ config.GetEnv().DatebaseConfig.DATABASE_IP+
+		":"+ config.GetEnv().DatebaseConfig.DATABASE_PORT+ ")/"+ config.GetEnv().DatebaseConfig.DATABASE_NAME+ "?charset=utf8mb4&parseTime=true")
 
 	if err != nil {
 		SqlDB.Close()

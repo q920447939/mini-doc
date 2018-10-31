@@ -13,14 +13,14 @@ func RegisterSession() gin.HandlerFunc {
 	store, _ := sessions.NewRedisStore(
 		10,
 		"tcp",
-		config.GetEnv().REDIS_IP+":"+config.GetEnv().REDIS_PORT,
-		config.GetEnv().REDIS_PASSWORD,
+		config.GetEnv().RedisConfig.REDIS_IP+":"+config.GetEnv().RedisConfig.REDIS_PORT,
+		config.GetEnv().RedisConfig.REDIS_PASSWORD,
 		[]byte("secret"))
 	return sessions.Sessions("mysession", store)
 }
 
 func RegisterCache() gin.HandlerFunc {
 	var cacheStore persistence.CacheStore
-	cacheStore = persistence.NewRedisCache(config.GetEnv().REDIS_IP+":"+config.GetEnv().REDIS_PORT, config.GetEnv().REDIS_PASSWORD, time.Minute)
+	cacheStore = persistence.NewRedisCache(config.GetEnv().RedisConfig.REDIS_IP+":"+config.GetEnv().RedisConfig.REDIS_PORT, config.GetEnv().RedisConfig.REDIS_PASSWORD, time.Minute)
 	return cache.Cache(&cacheStore)
 }

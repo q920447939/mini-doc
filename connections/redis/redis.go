@@ -15,9 +15,9 @@ var Client ClientType
 
 func init() {
 	Client.RedisCon = redis.NewClient(&redis.Options{
-		Addr:     config.GetEnv().REDIS_IP + ":" + config.GetEnv().REDIS_PORT,
-		Password: config.GetEnv().REDIS_PASSWORD, // no password set
-		DB:       config.GetEnv().REDIS_DB,       // use default DB
+		Addr:     config.GetEnv().RedisConfig.REDIS_IP + ":" + config.GetEnv().RedisConfig.REDIS_PORT,
+		Password: config.GetEnv().RedisConfig.REDIS_PASSWORD, // no password set
+		DB:       config.GetEnv().RedisConfig.REDIS_DB,       // use default DB
 	})
 }
 

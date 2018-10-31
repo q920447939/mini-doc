@@ -16,12 +16,12 @@ import (
 func InitGin(r *gin.Engine) {
 	ig.GinEngine = r
 	runtime.GOMAXPROCS(runtime.NumCPU())
-	if config.GetEnv().DEBUG {
+	if config.GetEnv().ServerConfig.DEBUG {
 		gin.SetMode(gin.DebugMode)
 	} else {
 		gin.SetMode(gin.ReleaseMode)
 	}
-	if config.GetEnv().DEBUG {
+	if config.GetEnv().ServerConfig.DEBUG {
 		pprof.Register(ig.GinEngine) // 性能分析工具
 	}
 

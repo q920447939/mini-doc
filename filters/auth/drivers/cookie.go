@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var store = sessions.NewCookieStore([]byte(config.GetEnv().APP_SECRET))
+var store = sessions.NewCookieStore([]byte(config.GetEnv().ServerConfig.APP_SECRET))
 
 type cookieAuthManager struct {
 	name string
