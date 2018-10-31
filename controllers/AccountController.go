@@ -12,7 +12,8 @@ import (
 	"wahaha/base"
 	"wahaha/service/impl"
 	"wahaha/utils/jwt"
-	)
+	"wahaha/utils/gocaptcha"
+		)
 
 //注册页面
 func RegisteredHtml(context *gin.Context) {
@@ -130,12 +131,11 @@ func CheckLoginParams(m *rbac.Member) (errMsg string, flg bool) {
 
 // 验证码
 func  Captcha(context *gin.Context) {
-/*
+
 	captchaImage, err := gocaptcha.NewCaptchaImage(140, 40, gocaptcha.RandLightColor())
 
 	if err != nil {
-		beego.Error(err)
-		c.Abort("500")
+		panic(err)
 	}
 
 	captchaImage.DrawNoise(gocaptcha.CaptchaComplexLower)
@@ -143,13 +143,14 @@ func  Captcha(context *gin.Context) {
 	// captchaImage.DrawTextNoise(gocaptcha.CaptchaComplexHigh)
 	txt := gocaptcha.RandText(4)
 
-	c.SetSession(conf.CaptchaSessionName, txt)
+	context.Set(conf.CaptchaSessionName,txt)
+	//c.SetSession(conf.CaptchaSessionName, txt)
 
 	captchaImage.DrawText(txt)
 	// captchaImage.Drawline(3);
 	captchaImage.DrawBorder(gocaptcha.ColorToRGB(0x17A7A7A))
 	// captchaImage.DrawHollowLine()
 
-	captchaImage.SaveImage(c.Ctx.ResponseWriter, gocaptcha.ImageFormatJpeg)
-	c.StopRun()*/
+	captchaImage.SaveImage(context.Writer, gocaptcha.ImageFormatJpeg)
+
 }

@@ -1,5 +1,5 @@
 package gocaptcha
-/*
+
 import (
 	"errors"
 	"flag"
@@ -17,16 +17,20 @@ import (
 	"os"
 	"strings"
 	"time"
-
 	"github.com/golang/freetype"
 	"github.com/golang/freetype/truetype"
 	"golang.org/x/image/font"
+	"os/exec"
+	"fmt"
+	"path/filepath"
+	"wahaha/constant/static"
+	 ini "wahaha/init/static"
 )
 
 var (
 	dpi        = flag.Float64("dpi", 72, "screen resolution in Dots Per Inch")
 	r          = rand.New(rand.NewSource(time.Now().UnixNano()))
-	FontFamily = make([]string, 0)
+	FontFamily = make([]string, 4)
 )
 
 const txtChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
@@ -40,7 +44,10 @@ const (
 	CaptchaComplexLower = iota
 	CaptchaComplexMedium
 	CaptchaComplexHigh
+
 )
+
+
 
 type CaptchaImage struct {
 	nrgba   *image.NRGBA
@@ -373,11 +380,22 @@ func (captcha *CaptchaImage) DrawText(text string) error {
 
 }
 
+func getCurrentPath() string {
+	file, _ := exec.LookPath(os.Args[0])
+	fmt.Println("file:", file)
+	path, _ := filepath.Abs(file)
+	fmt.Println("path:", path)
+	splitstring := strings.Split(path, "\\")
+	size := len(splitstring)
+	splitstring = strings.Split(path, splitstring[size-1])
+	ret := strings.Replace(splitstring[0], "\\", "/", size-1)
+	return ret
+}
+
+
 //获取所及字体.
 func RandFontFamily() (*truetype.Font, error) {
-	fontFile := FontFamily[r.Intn(len(FontFamily))]
-
-	fontBytes, err := ioutil.ReadFile(fontFile)
+	fontBytes, err := ioutil.ReadFile(ini.TtlConstantMap[static.TTL_PATH])
 	if err != nil {
 		log.Println(err)
 		return &truetype.Font{}, err
@@ -466,4 +484,3 @@ func ColorToRGB(colorVal int) color.RGBA {
 		A: uint8(255),
 	}
 }
-*/

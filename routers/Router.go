@@ -39,6 +39,11 @@ func GinRouter() {
 		}
 	}
 
+	login := ig.GinEngine.Group("/login")
+	{
+		login.GET("/captcha",controllers.Captcha)
+	}
+
 	RouterHtml()
 
 	book := ig.GinEngine.Group("/book")
@@ -47,6 +52,8 @@ func GinRouter() {
 	}
 
 	ig.GinEngine.GET("/jwts", JwtSet)
+
+
 }
 
 func RouterHtml() {
