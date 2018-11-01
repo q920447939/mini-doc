@@ -1,6 +1,10 @@
 package base
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
 
 type BaseReturnJson struct {
 	ExecuteStatus bool `json:"-"` //执行状态
@@ -17,11 +21,24 @@ func GetJsonStr(t *BaseReturnJson) string {
 	return string(bytes)
 }
 
-func ReturnCode(code int, message string, v interface{}) *BaseReturnJson {
+func ReturnBaseCode_Success(code int, message string, v interface{} , context *gin.Context) {
 	b := BaseReturnJson{
 		Code:    code,
 		Message: message,
 		Data:    v,
 	}
-	return &b
+	context.JSON(http.StatusOK, b)
+	return
 }
+
+
+func ReturnBaseCode_Fail(code int, message string, v interface{} , context *gin.Context) {
+	b := BaseReturnJson{
+		Code:    code,
+		Message: message,
+		Data:    v,
+	}
+	context.JSON(http.StatusBadRequest, b)
+	return
+}
+

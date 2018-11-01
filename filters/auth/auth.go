@@ -13,6 +13,7 @@ var driverList = map[string]func()Auth {
 	"jwt" : func() Auth {
 		return drivers.NewJwtAuthDriver()
 	},
+
 }
 
 type Auth interface {

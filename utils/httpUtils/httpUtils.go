@@ -9,7 +9,10 @@ import (
 	"strconv"
 	"fmt"
 	"strings"
-)
+	"github.com/gin-gonic/gin"
+	"wahaha/base"
+	"wahaha/constant/httpcode"
+	)
 
 /**
 获取body的data(json)转换为string
@@ -63,6 +66,7 @@ func MapToStruct(m map[string]interface{} , pointer interface{})  {
 	// reflect.Value类型
 	pointervalue := reflect.ValueOf(pointer)
 	// struct类型  main.Person
+
 	structType := pointertype.Elem()
 	// 遍历结构体字段
 	for i := 0; i < structType.NumField(); i++ {
@@ -108,5 +112,21 @@ func MapToStruct(m map[string]interface{} , pointer interface{})  {
 		case reflect.String:
 			pointervalue.Elem().Field(i).SetString(fmt.Sprint(v))
 		}
+	}
+}
+
+func RequstBodyJsonTransformContent(context *gin.Context)  {
+	data, _ := ioutil.ReadAll(context.Request.Body)
+	var mapResult map[string]interface{}
+	//使用 json.Unmarshal(data []byte, v interface{})进行转换,返回 error 信息
+	if err := json.Unmarshal([]byte(data), &mapResult); err != nil {
+		context.JSON(http.StatusBadRequest, base.BaseReturnJson{
+			Code:httpcode.BASE_SYS_ERROR_CODE,
+			Message:httpcode.BaseHttpCodesMap[httpcode.BASE_SYS_ERROR_CODE],
+		})
+		return
+	}
+	for k, v := range mapResult {
+		context.Set(k,v.(string))
 	}
 }

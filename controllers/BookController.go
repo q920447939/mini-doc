@@ -13,6 +13,6 @@ func List(context *gin.Context) {
 	if err := models.Model.Unscoped().Where("status = 0").Find(&bk).Error; err != nil {
 		panic(err)
 	}
-	result := base.ReturnCode(http.StatusOK, "", bk)
-	context.JSON(result.Code, &result)
+	base.ReturnBaseCode_Fail(http.StatusOK, "", nil, context)
+
 }

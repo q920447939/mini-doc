@@ -7,13 +7,9 @@ import (
 	ggin "github.com/gin-gonic/gin"
 	"net/http"
 	"wahaha/utils/jwt"
-
-	"fmt"
-)
+		)
 
 func GinRouter() {
-
-
 
 	index := gin.GinEngine.Group("/minidoc")
 	index.Use(jwt.JWT())
@@ -41,7 +37,7 @@ func GinRouter() {
 
 	login := ig.GinEngine.Group("/login")
 	{
-		login.GET("/captcha",controllers.Captcha)
+		login.GET("/captcha", controllers.Captcha)
 	}
 
 	RouterHtml()
@@ -50,9 +46,6 @@ func GinRouter() {
 	{
 		book.GET("/list", controllers.List)
 	}
-
-	ig.GinEngine.GET("/jwts", JwtSet)
-
 
 }
 
@@ -64,25 +57,8 @@ func RouterHtml() {
 
 			})
 		})
-		htmlUseAuthView.GET("/register",controllers.RegisteredHtml)
+		htmlUseAuthView.GET("/register", controllers.RegisteredHtml)
 	}
 
 }
 
-func JwtSet(context *ggin.Context) {
-	username := context.Query("username")
-	password := context.Query("password")
-	if username == "" {
-		username = "username"
-		password = "password"
-	}
-	if token, e := jwt.GenerateToken(username, password); e != nil {
-		panic(e)
-	} else {
-		claims, i := jwt.ParseToken(token)
-		fmt.Printf("claims = %v ,i = %v", claims, i)
-		context.JSON(http.StatusGone, ggin.H{
-			"data": token,
-		})
-	}
-}

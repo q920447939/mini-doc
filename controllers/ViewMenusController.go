@@ -16,6 +16,5 @@ func FindIndexMenus(context *gin.Context) {
 	if err := models.Model.Unscoped().Find(&m).Error; err != nil {
 		panic(err)
 	}
-	code := base.ReturnCode(http.StatusOK, "", m)
-	context.JSON(http.StatusOK, &code)
+	base.ReturnBaseCode_Fail(http.StatusOK, "", nil, context)
 }

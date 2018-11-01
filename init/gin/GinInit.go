@@ -5,13 +5,12 @@ import (
 	config "wahaha/conf"
 	"runtime"
 	"github.com/gin-contrib/pprof"
-	"wahaha/filters"
-	"wahaha/filters/auth"
-	"net/http"
+			"net/http"
 	"wahaha/module/logger"
 	"github.com/go-sql-driver/mysql"
 	ig "wahaha/module/gin"
-	)
+	"github.com/gin-gonic/contrib/sessions"
+)
 
 func InitGin(r *gin.Engine) {
 	ig.GinEngine = r
@@ -34,11 +33,13 @@ func ginProperties() {
 	//ig.GinEngine.Use(gin.Logger())
 
 	ig.GinEngine.Use(handleErrors())            // 错误处理
-	ig.GinEngine.Use(filters.RegisterSession()) // 全局session
-	ig.GinEngine.Use(filters.RegisterCache())   // 全局cache
+	store := sessions.NewCookieStore([]byte("secret"))
+	ig.GinEngine.Use(sessions.Sessions("mysession", store))
 
+/*	ig.GinEngine.Use(filters.RegisterSession()) // 全局session
+	ig.GinEngine.Use(filters.RegisterCache())   // 全局cache
 	ig.GinEngine.Use(auth.RegisterGlobalAuthDriver("cookie", "web_auth")) // 全局auth cookie
-	ig.GinEngine.Use(auth.RegisterGlobalAuthDriver("jwt", "jwt_auth"))    // 全局auth jwt
+	ig.GinEngine.Use(auth.RegisterGlobalAuthDriver("jwt", "jwt_auth"))    // 全局auth jwt*/
 
 	ig.GinEngine.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{

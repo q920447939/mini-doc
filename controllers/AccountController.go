@@ -13,6 +13,8 @@ import (
 	"wahaha/utils/jwt"
 	"wahaha/utils/gocaptcha"
 	"wahaha/constant/httpcode"
+	"github.com/gin-gonic/contrib/sessions"
+		"github.com/goinggo/mapstructure"
 )
 
 //注册页面
@@ -25,7 +27,7 @@ func RegisteredHtml(context *gin.Context) {
 		"baseName":            baseName,
 		"registeredHTMLTitle": htmlTitle,
 		"baseUrl":             baseUrl,
-		"captcha":"http://"+conf.GetEnv().ServerConfig.SERVER_IP+":"+conf.GetEnv().ServerConfig.SERVER_PORT+"/login/captcha",
+		"captcha":             "http://" + conf.GetEnv().ServerConfig.SERVER_IP + ":" + conf.GetEnv().ServerConfig.SERVER_PORT + "/login/captcha",
 	})
 
 }
@@ -33,44 +35,56 @@ func RegisteredHtml(context *gin.Context) {
 //注册
 func Register(context *gin.Context) {
 	var m rbac.Member
-	if err := context.BindJSON(&m); err != nil {
-		baseResult := base.BaseReturnJson{
-			Code:    httpcode.BASE_SYS_ERROR_CODE,
-			Message: httpcode.MemberHttpCodes[httpcode.BASE_SYS_ERROR_CODE],
-		}
-		context.JSON(http.StatusOK, baseResult)
+	mapInstance := make(map[string]interface{})
+	if err := context.BindJSON(&mapInstance); err != nil {
+		base.ReturnBaseCode_Fail(httpcode.PARAMS_IS_ERROR, httpcode.MemberHttpCodes[httpcode.PARAMS_IS_ERROR], nil, context)
 		return
 	}
-	var code string
-	if code = context.PostForm("code"); code == "" {
-		baseResult := base.BaseReturnJson{
-			Code:    httpcode.CODE_IS_EMPTY,
-			Message: httpcode.MemberHttpCodes[httpcode.CODE_IS_EMPTY],
-		}
-		context.JSON(http.StatusOK, baseResult)
+	//将map转为struct
+	err := mapstructure.Decode(mapInstance, &m)
+	if err != nil {
+		base.ReturnBaseCode_Fail(httpcode.BASE_SYS_ERROR_CODE, httpcode.BaseHttpCodesMap[httpcode.BASE_SYS_ERROR_CODE], nil, context)
 		return
 	}
-	errMsg, ok := checkMember(&m)
-	if value, exists := context.Get(conf.CaptchaSessionName);!exists ||  value != code {
-		baseResult := base.BaseReturnJson{
-			Code:    httpcode.CODE_IS_NOT_EQUAL,
-			Message: httpcode.MemberHttpCodes[httpcode.CODE_IS_NOT_EQUAL],
-		}
-		context.JSON(http.StatusOK, baseResult)
+	if queryCode, exists := mapInstance["code"]; !exists || queryCode == "" {
+		base.ReturnBaseCode_Fail(httpcode.CODE_IS_EMPTY, httpcode.MemberHttpCodes[httpcode.CODE_IS_EMPTY], nil, context)
 		return
-	}
-	if !ok {
-		b := base.ReturnCode(http.StatusOK, errMsg, nil)
-		context.JSON(http.StatusOK, b)
 	} else {
-		member := impl.Member{}
-		e := member.AddMember(&m)
-		context.JSON(http.StatusOK, e)
+		//从session 获取验证码
+		session := sessions.Default(context)
+		if sessionCode, ok := session.Get(conf.CaptchaSessionName).(string); !ok {
+			base.ReturnBaseCode_Fail(httpcode.CODE_IS_NOT_EQUAL, httpcode.MemberHttpCodes[httpcode.CODE_IS_NOT_EQUAL], nil, context)
+			return
+		} else {
+			if strings.ToLower(queryCode.(string)) != strings.ToLower(sessionCode) {
+				base.ReturnBaseCode_Fail(httpcode.CODE_IS_NOT_EQUAL, httpcode.MemberHttpCodes[httpcode.CODE_IS_NOT_EQUAL], nil, context)
+				return
+			}
+			//检查参数
+			errMsg, ok := checkMember(&m, mapInstance)
+			if !ok {
+				base.ReturnBaseCode_Fail(httpcode.CODE_IS_EMPTY, errMsg, nil, context)
+				return
+			} else {
+				member := impl.Member{}
+				if baseResult := member.AddMember(&m); baseResult.ExecuteStatus {
+					//登陆成功
+
+					context.JSON(http.StatusOK,gin.H{
+						"a":"",
+					})
+					return
+				} else {
+					base.ReturnBaseCode_Fail(httpcode.MEMBER_READ_NAME_IS_EXISTS, httpcode.MemberHttpCodes[httpcode.MEMBER_READ_NAME_IS_EXISTS], nil, context)
+					return
+				}
+				return
+			}
+		}
 	}
 }
 
-func checkMember(m *rbac.Member) (errMsg string, flg bool) {
-	var confirmPassword string
+func checkMember(m *rbac.Member, mapInstance map[string]interface{}) (errMsg string, flg bool) {
 	if ok, err := regexp.MatchString(conf.RegexpAccount, m.Account); !ok || err != nil {
 		errMsg = "账号只能由英文字母数字组成，且在3-50个字符"
 		return
@@ -84,7 +98,7 @@ func checkMember(m *rbac.Member) (errMsg string, flg bool) {
 		errMsg = "密码必须在6-50个字符之间"
 		return
 	}
-	if confirmPassword != m.Password {
+	if mapInstance["confirmPassword"] != m.Password {
 		errMsg = "两次密码不一致"
 		return
 	}
@@ -104,9 +118,7 @@ func Login(context *gin.Context) {
 		return
 	}
 	if errMsg, flg := CheckLoginParams(&m); !flg {
-		b := base.ReturnCode(http.StatusOK, errMsg, nil)
-		context.JSON(http.StatusOK, b)
-		return
+		base.ReturnBaseCode_Fail(http.StatusBadRequest, errMsg, nil, context)
 	}
 	member := impl.Member{}
 
@@ -148,26 +160,17 @@ func CheckLoginParams(m *rbac.Member) (errMsg string, flg bool) {
 
 // 验证码
 func Captcha(context *gin.Context) {
-
 	captchaImage, err := gocaptcha.NewCaptchaImage(140, 40, gocaptcha.RandLightColor())
-
 	if err != nil {
 		panic(err)
 	}
-
 	captchaImage.DrawNoise(gocaptcha.CaptchaComplexLower)
-
-	// captchaImage.DrawTextNoise(gocaptcha.CaptchaComplexHigh)
 	txt := gocaptcha.RandText(4)
-
-	context.Set(conf.CaptchaSessionName, txt)
-	//c.SetSession(conf.CaptchaSessionName, txt)
-
+	session := sessions.Default(context)
+	session.Set(conf.CaptchaSessionName, txt)
+	session.Save()
 	captchaImage.DrawText(txt)
-	// captchaImage.Drawline(3);
 	captchaImage.DrawBorder(gocaptcha.ColorToRGB(0x17A7A7A))
-	// captchaImage.DrawHollowLine()
 
 	captchaImage.SaveImage(context.Writer, gocaptcha.ImageFormatJpeg)
-
 }

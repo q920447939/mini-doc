@@ -10,16 +10,31 @@ import (
 	"wahaha/connections/redis"
 	"strings"
 	mmodule_gin "wahaha/module/gin"
+	"time"
+	"github.com/gin-gonic/contrib/sessions"
+	"github.com/ScottHuangZL/gin-jwt-session"
 )
 
 func main() {
 	router := gin.New()
+
+	router.Use(session.ClearMiddleware()) //important to avoid mem leak
+
 	router.Static("/static", "./static")
 	router.StaticFS("/more_static", http.Dir("my_file_system"))
 	router.StaticFile("/favicon.ico", "./resources/favicon.ico")
 	mG.InitGin(router)
 	routers.GinRouter()
+
+
+	store := sessions.NewCookieStore([]byte("secret"))
+	store.Options(sessions.Options{
+		MaxAge: int(30 * time.Minute), //30min
+		Path:   "/",
+	})
+	router.Use(sessions.Sessions("aaaaaaaaaaaa", store))
 	mmodule_gin.Run(router)
+
 }
 
 func ValidToken() gin.HandlerFunc {
