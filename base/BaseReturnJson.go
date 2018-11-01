@@ -38,7 +38,7 @@ func ReturnBaseCode_Fail(code int, message string, v interface{} , context *gin.
 		Message: message,
 		Data:    v,
 	}
-	context.JSON(http.StatusBadRequest, b)
+	context.JSON(http.StatusOK, b)
 	return
 }
 

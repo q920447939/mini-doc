@@ -69,10 +69,7 @@ func Register(context *gin.Context) {
 				member := impl.Member{}
 				if baseResult := member.AddMember(&m); baseResult.ExecuteStatus {
 					//登陆成功
-
-					context.JSON(http.StatusOK,gin.H{
-						"a":"",
-					})
+					base.ReturnBaseCode_Success(http.StatusOK, "注册成功", nil, context)
 					return
 				} else {
 					base.ReturnBaseCode_Fail(httpcode.MEMBER_READ_NAME_IS_EXISTS, httpcode.MemberHttpCodes[httpcode.MEMBER_READ_NAME_IS_EXISTS], nil, context)
